@@ -2,26 +2,13 @@
 data = [2, 4, 1, 6, 9, 7, 5, 8]
 
 def merge(arr, left, mid, right):
-    n1 = mid - left
-    n2 = right - mid
-
-    l = [0]*n1
-    r = [0]*n2
-
-    count = 0
-    for index in range(left, mid):
-        l[count] = arr[index]
-        count += 1
-
-    count = 0
-    for index in range(mid, right):
-        r[count] = arr[index]
-        count += 1
+    l = arr[left:mid]
+    r = arr[mid:right]
 
     i = j = 0
     k = left
-    while i < n1 and j < n2:
-        if l[i] < r[j]:
+    while i < len(l) and j < len(r):
+        if l[i] <= r[j]:
             arr[k] = l[i]
             i += 1
         else:
@@ -29,12 +16,11 @@ def merge(arr, left, mid, right):
             j += 1
         k += 1
 
-    while i < n1:
+    while i < len(l):
         arr[k] = l[i]
         i += 1
         k += 1
-
-    while j < n2:
+    while j < len(r):
         arr[k] = r[j]
         j += 1
         k += 1
