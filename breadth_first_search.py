@@ -1,29 +1,32 @@
 from collections import deque
 
-# BFS implementation
-def bfs(start, mango_seller):
+def bfs(start, graph):
+    """Perform BFS to find a node whose name ends with 'mango'."""
     visited = set()
-    seller_queue = deque([start])
-    while seller_queue:
-        key = seller_queue.popleft()
-        if key in visited:
+    queue = deque([start])
+
+    while queue:
+        person = queue.popleft()
+        if person in visited:
             continue
-        visited.add(key)
-        if key.endswith("mango"):
+        visited.add(person)
+
+        if person.endswith("mango"):
             return True
-        if key in mango_seller:
-            seller_queue.extend(mango_seller[key])
+        
+        queue.extend(neighbor for neighbor in graph.get(person, []) if neighbor not in visited)
+
     return False
 
 
 # Example usage
-mango_seller = {
+graph = {
     "Naruto": {"Goku", "Witcher"},
     "Goku": {"Katy", "Naruto"},
-    "Witcher": {"Katy", "Perry"},
-    "Johnmango": {"Goku"},
+    "Witcher": {"Katy", "Perry","Johnmango"},
+    "Johnmango": {"Goku","Bobmango"},
     "Bobmango": {"Witcher"}
 }
 
-res = bfs("Naruto", mango_seller)
-print(f"->{res}")
+result = bfs("Naruto", graph)
+print(f"Found mango seller? -> {result}")
