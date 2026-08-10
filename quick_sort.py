@@ -1,29 +1,23 @@
 def quicksortctrl(data, left, right):
-    if left >= right:
+    if(left >= right):
         return
+    left_counter = left
+    right_counter = right
+    pivot = data[(left+right)//2]
 
-    pivot = data[(left + right) // 2]
+    while left_counter <= right_counter:
+        while data[left_counter] < pivot:
+            left_counter += 1
+        while data[right_counter] > pivot:
+            right_counter -= 1
 
-    i = left
-    j = right
-
-    while i <= j:
-
-        while i <= right and data[i] < pivot:
-            i += 1
-
-        while j >= left and data[j] > pivot:
-            j -= 1
-
-        if i <= j:
-            data[i], data[j] = data[j], data[i]
-
-            i += 1
-            j -= 1
-
-    quicksortctrl(data, left, j)
-    quicksortctrl(data, i, right)
-
+        if left_counter <= right_counter:
+            data[left_counter], data[right_counter] = data[right_counter], data[left_counter]
+            left_counter += 1
+            right_counter -= 1
+        
+    quicksortctrl(data, left, right_counter)
+    quicksortctrl(data, left_counter, right)
 
 def quicksort(data):
     try:
