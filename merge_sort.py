@@ -1,39 +1,89 @@
-# Original data
-data = [2, 4, 1, 6, 9, 7, 5, 8]
+def merge(left_arr, right_arr):
+    print(f"    MERGE: {left_arr} + {right_arr}")
 
-def merge(arr, left, mid, right):
-    l = arr[left:mid]
-    r = arr[mid:right]
+    res = []
+    left = 0
+    right = 0
 
-    i = j = 0
-    k = left
-    while i < len(l) and j < len(r):
-        if l[i] <= r[j]:
-            arr[k] = l[i]
-            i += 1
+    while left < len(left_arr) and right < len(right_arr):
+        if left_arr[left] <= right_arr[right]:
+            res.append(left_arr[left])
+            left += 1
         else:
-            arr[k] = r[j]
-            j += 1
-        k += 1
+            res.append(right_arr[right])
+            right += 1
 
-    while i < len(l):
-        arr[k] = l[i]
-        i += 1
-        k += 1
-    while j < len(r):
-        arr[k] = r[j]
-        j += 1
-        k += 1
+    while left < len(left_arr):
+        res.append(left_arr[left])
+        left += 1
 
-def merge_sort(arr, left=0, right=None):
-    if right is None:
-        right = len(arr)
-    if left < right - 1:  # at least 2 elements
-        mid = (left + right) // 2
-        merge_sort(arr, left, mid)
-        merge_sort(arr, mid, right)
-        merge(arr, left, mid, right)
+    while right < len(right_arr):
+        res.append(right_arr[right])
+        right += 1
 
-print(f"Original data: {data}")
-merge_sort(data)
-print(f"Sorted data: {data}")
+    print(f"    RESULT: {res}")
+
+    return res
+
+
+def mergesort(data):
+    if len(data) < 2:
+        return data
+
+    mid = len(data) // 2
+
+    left_arr = data[:mid]
+    right_arr = data[mid:]
+
+    print(f"SPLIT:  {data}")
+    print(f"LEFT:   {left_arr}")
+    print(f"RIGHT:  {right_arr}")
+
+    left_arr = mergesort(left_arr)
+    right_arr = mergesort(right_arr)
+
+    return merge(left_arr, right_arr)
+
+
+# --------------------------------
+# TEST CASES
+# --------------------------------
+
+test_cases = [
+    [70,30,50,10],
+    [],
+    [1],
+    [2, 1],
+    [1, 2],
+    [3, 5, 2, 1, 4],
+    [5, 4, 3, 2, 1],
+    [1, 2, 3, 4, 5],
+    [2, 2, 2, 2],
+    [3, 1, 3, 2, 1],
+    [-3, 5, -1, 0, 2],
+    [10, -5, 7, 3, -2, 0],
+]
+
+
+# --------------------------------
+# RUN TESTS
+# --------------------------------
+
+for test in test_cases:
+    print("\n" + "=" * 50)
+    print("INPUT:", test)
+    print("=" * 50)
+
+    data = test.copy()
+
+    data = mergesort(data)
+
+    expected = sorted(test)
+
+    if data == expected:
+        print("PASS:", test)
+    else:
+        print("FAIL:")
+        print("  Input:   ", test)
+        print("  Got:     ", data)
+        print("  Expected:", expected)
