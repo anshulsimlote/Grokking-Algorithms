@@ -13,7 +13,6 @@ My implementations and practice while learning algorithms.
 - Dijkstra's Algorithm
 - Greedy Algorithms
 - Dynamic Programming
-- 0/1 Knapsack
 
 ## Goal
 
